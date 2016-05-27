@@ -1,0 +1,15 @@
+{
+    "name": "cjdnshdr",
+    "descrption": "tools for parsing and serializing cjdns packet headers",
+    "license": "GPL-3.0+",
+    "dependencies": {
+        "cjdnskeys": "~0.1.0"
+    },
+    "devDependencies": {
+        "jshint": "~2.9.1"
+    },
+    "scripts": {
+        "lint": "jshint --verbose --config .jshintrc --exclude-path .jshintignore .",
+        "test": "node test"
+    }
+}
