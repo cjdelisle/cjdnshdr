@@ -1,5 +1,6 @@
 {
     "name": "cjdnshdr",
+    "version": "0.0.0",
     "descrption": "tools for parsing and serializing cjdns packet headers",
     "license": "GPL-3.0+",
     "dependencies": {
