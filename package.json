@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "descrption": "tools for parsing and serializing cjdns packet headers",
     "license": "GPL-3.0+",
+    "repository": "https://github.com/cjdelisle/cjdnshdr",
     "dependencies": {
         "cjdnskeys": "~0.1.0"
     },

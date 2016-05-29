@@ -50,12 +50,11 @@ const parse = module.exports.parse = (hdrBytes) => {
 
 const serialize = module.exports.serialize = (obj) => {
     if (!obj.ip) { throw new Error("IP6 required"); }
-    if (!obj.version || obj.version < 17) { throw new Error("version is < 17, probably unset"); }
     const keyBytes = obj.publicKey ? Cjdnskeys.keyStringToBytes(obj.publicKey) : ZEROKEY;
     const shBytes = SwitchHeader.serialize(obj.switchHeader);
     const versionBytes = new Buffer(4);
-    versionBytes.write32BE(obj.version);
+    versionBytes.writeUInt32BE(obj.version);
     const padBytes = new Buffer('00000000', 'hex');
-    const ipBytes = Cjdnskeys.keyStringToBytes(obj.ip);
+    const ipBytes = Cjdnskeys.ip6StringToBytes(obj.ip);
     return Buffer.concat([keyBytes, shBytes, versionBytes, padBytes, ipBytes]);
 };

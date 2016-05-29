@@ -45,6 +45,7 @@ const parse = module.exports.parse = (hdrBytes) => {
 
 const serialize = module.exports.serialize = (obj) => {
     if (!obj.label || !LABEL_REGEX.test(obj.label)) { throw new Error("missing or malformed label"); }
+    if (!obj.version) { obj.version = CURRENT_VERSION; }
     if (obj.version !== CURRENT_VERSION) { throw new Error("invalid version"); }
     if (obj.labelShift > 63) { throw new Error("labelShift out of range"); }
     if (obj.penalty > 65535) { throw new Error("penalty out of range"); }
