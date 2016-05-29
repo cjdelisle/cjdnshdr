@@ -13,7 +13,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 'use strict';
-const LABEL_REGEX = /^([a-f0-9]{4}\.){3}[a-f0-9]{4}$/
+const LABEL_REGEX = /^([a-f0-9]{4}\.){3}[a-f0-9]{4}$/;
 
 const SIZE = module.exports.SIZE = 12;
 
@@ -49,7 +49,7 @@ const serialize = module.exports.serialize = (obj) => {
     if (obj.version !== CURRENT_VERSION) { throw new Error("invalid version"); }
     if (obj.labelShift > 63) { throw new Error("labelShift out of range"); }
     if (obj.penalty > 65535) { throw new Error("penalty out of range"); }
-    const labelHex = obj.label.replace(/\./g, '')
+    const labelHex = obj.label.replace(/\./g, '');
     const congestAndSuppressErrors = ((obj.congestion << 1) | !!obj.suppressErrors) & 0xff;
     const versionAndLabelShift = ((obj.version << 6) | obj.labelShift) & 0xff;
     const out = new Buffer(12);
