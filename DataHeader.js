@@ -16,7 +16,7 @@
 
 const ContentType = require('./ContentType');
 
-const SIZE = 4;
+const SIZE = module.exports.SIZE = 4;
 
 const CURRENT_VERSION = module.exports.CURRENT_VERSION = 1;
 

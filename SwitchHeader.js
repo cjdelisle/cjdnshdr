@@ -29,6 +29,10 @@ const parse = module.exports.parse = (hdrBytes) => {
     if (x !== SIZE) { throw new Error(); }
 
     const version = versionAndLabelShift >> 6;
+
+    // Versions < 18 did not always set the version on the switch header so we'll be quiet.
+    if (version === 0) { version = 1; }
+
     if (version !== CURRENT_VERSION) {
         console.error("WARNING: Parsing label with unrecognized version number [" + version + "]");
     }
