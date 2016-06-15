@@ -89,3 +89,7 @@ const toNum = module.exports.toNum = (ct) => {
 const isValid = module.exports.isValid = (ct) => {
     return !!(NUM_BY_NAME[ct] || NAME_BY_NUM[ct]);
 };
+
+const names = module.exports.names = () => {
+    return Object.keys(NUM_BY_NAME);
+};
