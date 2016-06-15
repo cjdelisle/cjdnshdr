@@ -49,7 +49,8 @@ const testRouteHeaderParse = () => {
         'a331ebbed8d92ac03b10efed3e389cd0c6ec7331a72dbde198476c5eb4d14a1f' + // key
         '000000000000001300480000' + // switch header
         '00000000' + // version (unknown)
-        '00000000' + // pad
+        '01' + // flags
+        '000000' + // pad
         'fc928136dc1fe6e04ef6a6dd7187b85f', // ip6
         'hex'
     );
@@ -58,6 +59,7 @@ const testRouteHeaderParse = () => {
     assert(obj.version === 0);
     assert(obj.ip === 'fc92:8136:dc1f:e6e0:4ef6:a6dd:7187:b85f');
     assert(obj.switchHeader.label === '0000.0000.0000.0013');
+    assert(obj.isIncoming);
     assert(bytes.equals(RouteHeader.serialize(obj)));
 };
 

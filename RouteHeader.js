@@ -18,6 +18,7 @@ const SwitchHeader = require('./SwitchHeader');
 
 const ZEROKEY = new Buffer(new Array(32).fill(0));
 const ZEROIP = new Buffer(new Array(16).fill(0));
+const F_INCOMING = 1;
 
 const SIZE = module.exports.SIZE = 68;
 
@@ -27,7 +28,8 @@ const parse = module.exports.parse = (hdrBytes) => {
     const keyBytes = hdrBytes.slice(x, x += 32);
     const shBytes = hdrBytes.slice(x, x += 12);
     const versionBytes = hdrBytes.slice(x, x += 4);
-    const padBytes = hdrBytes.slice(x, x += 4);
+    const flags = hdrBytes[x++];
+    const unusedBytes = hdrBytes.slice(x, x += 3);
     const ipBytes = hdrBytes.slice(x, x += 16);
     if (x !== SIZE) { throw new Error(); }
     if (ZEROIP.equals(ipBytes)) { throw new Error("IP6 is not defined"); }
@@ -36,7 +38,8 @@ const parse = module.exports.parse = (hdrBytes) => {
         publicKey: keyBytes.equals(ZEROKEY) ? null : Cjdnskeys.keyBytesToString(keyBytes),
         version: versionBytes.readInt32BE(),
         ip: Cjdnskeys.ip6BytesToString(ipBytes),
-        switchHeader: SwitchHeader.parse(shBytes)
+        switchHeader: SwitchHeader.parse(shBytes),
+        isIncoming: !!(flags & F_INCOMING)
     };
     if (out.publicKey) {
         const ip = Cjdnskeys.publicToIp6(out.publicKey);
@@ -54,7 +57,9 @@ const serialize = module.exports.serialize = (obj) => {
     const shBytes = SwitchHeader.serialize(obj.switchHeader);
     const versionBytes = new Buffer(4);
     versionBytes.writeUInt32BE(obj.version);
-    const padBytes = new Buffer('00000000', 'hex');
+    let flags = 0;
+    if (obj.isIncoming) { flags |= F_INCOMING; }
+    const padBytes = new Buffer([flags, 0, 0, 0]);
     const ipBytes = Cjdnskeys.ip6StringToBytes(obj.ip);
     return Buffer.concat([keyBytes, shBytes, versionBytes, padBytes, ipBytes]);
 };
