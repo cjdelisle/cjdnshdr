@@ -63,7 +63,11 @@ enum ContentType
      * CTRL messages.
      */
     ContentType_AVAILABLE =     0x8000,
-    ContentType_MAX = 0xffff
+
+    // This contentType will never appear in the wild, it represents unencrypted control frames.
+    ContentType_CTRL = 0xffff + 1,
+
+    ContentType_MAX = 0xffff + 2
 };
 `;
 
@@ -71,8 +75,8 @@ const NUM_BY_NAME = {};
 const NAME_BY_NUM = {};
 
 CONTENT_TYPES_STR.split('\n').forEach((line) => {
-    line.replace(/^.*ContentType_([^ ]*) = *([x0-9a-f]*),$/, (all, name, num) => {
-        NUM_BY_NAME[name] = Number(num);
+    line.replace(/^.*ContentType_([^ ]*) = (0x[^,]*),*$/, (all, name, num) => {
+        NUM_BY_NAME[name] = Number(eval(num));
         NAME_BY_NUM[num] = name;
         //console.log(name + '  ' + num);
     });

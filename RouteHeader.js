@@ -19,6 +19,7 @@ const SwitchHeader = require('./SwitchHeader');
 const ZEROKEY = new Buffer(new Array(32).fill(0));
 const ZEROIP = new Buffer(new Array(16).fill(0));
 const F_INCOMING = 1;
+const F_CTRL = 1<<1;
 
 const SIZE = module.exports.SIZE = 68;
 
@@ -31,15 +32,21 @@ const parse = module.exports.parse = (hdrBytes) => {
     const flags = hdrBytes[x++];
     const unusedBytes = hdrBytes.slice(x, x += 3);
     const ipBytes = hdrBytes.slice(x, x += 16);
+    const isCtrl = !!(flags & F_CTRL);
     if (x !== SIZE) { throw new Error(); }
-    if (ZEROIP.equals(ipBytes)) { throw new Error("IP6 is not defined"); }
+    if (!isCtrl && ZEROIP.equals(ipBytes)) {
+        throw new Error("IP6 is not defined");
+    } else if (isCtrl && !ZEROIP.equals(ipBytes)) {
+        throw new Error("IP6 is defined for CTRL frame");
+    }
 
     const out = {
         publicKey: keyBytes.equals(ZEROKEY) ? null : Cjdnskeys.keyBytesToString(keyBytes),
         version: versionBytes.readInt32BE(),
-        ip: Cjdnskeys.ip6BytesToString(ipBytes),
+        ip: isCtrl ? null : Cjdnskeys.ip6BytesToString(ipBytes),
         switchHeader: SwitchHeader.parse(shBytes),
-        isIncoming: !!(flags & F_INCOMING)
+        isIncoming: !!(flags & F_INCOMING),
+        isCtrl: isCtrl
     };
     if (out.publicKey) {
         const ip = Cjdnskeys.publicToIp6(out.publicKey);
@@ -59,6 +66,7 @@ const serialize = module.exports.serialize = (obj) => {
     versionBytes.writeUInt32BE(obj.version);
     let flags = 0;
     if (obj.isIncoming) { flags |= F_INCOMING; }
+    if (obj.isCtrl) { flags |= F_CTRL; }
     const padBytes = new Buffer([flags, 0, 0, 0]);
     const ipBytes = Cjdnskeys.ip6StringToBytes(obj.ip);
     return Buffer.concat([keyBytes, shBytes, versionBytes, padBytes, ipBytes]);
