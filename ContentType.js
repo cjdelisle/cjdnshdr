@@ -76,6 +76,7 @@ const NAME_BY_NUM = {};
 
 CONTENT_TYPES_STR.split('\n').forEach((line) => {
     line.replace(/^.*ContentType_([^ ]*) = (0x[^,]*),*$/, (all, name, num) => {
+        // jshint -W061
         NUM_BY_NAME[name] = Number(eval(num));
         NAME_BY_NUM[num] = name;
         //console.log(name + '  ' + num);
