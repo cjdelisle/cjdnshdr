@@ -75,11 +75,12 @@ const NUM_BY_NAME = {};
 const NAME_BY_NUM = {};
 
 CONTENT_TYPES_STR.split('\n').forEach((line) => {
-    line.replace(/^.*ContentType_([^ ]*) = (0x[^,]*),*$/, (all, name, num) => {
+    line.replace(/^.*ContentType_([^ ]*) = ([^,]*),*$/, (all, name, num) => {
         // jshint -W061
-        NUM_BY_NAME[name] = Number(eval(num));
-        NAME_BY_NUM[num] = name;
-        //console.log(name + '  ' + num);
+        const n = Number(eval(num));
+        NUM_BY_NAME[name] = n;
+        NAME_BY_NUM[n] = name;
+        console.log(name + '  ' + n);
     });
 });
 
