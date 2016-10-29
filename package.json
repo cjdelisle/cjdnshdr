@@ -1,6 +1,6 @@
 {
     "name": "cjdnshdr",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "descrption": "tools for parsing and serializing cjdns packet headers",
     "license": "GPL-3.0+",
     "repository": "https://github.com/cjdelisle/cjdnshdr",
