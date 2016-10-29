@@ -80,7 +80,7 @@ CONTENT_TYPES_STR.split('\n').forEach((line) => {
         const n = Number(eval(num));
         NUM_BY_NAME[name] = n;
         NAME_BY_NUM[n] = name;
-        console.log(name + '  ' + n);
+        //console.log(name + '  ' + n);
     });
 });
 
