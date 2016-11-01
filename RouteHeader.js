@@ -59,7 +59,7 @@ const parse = module.exports.parse = (hdrBytes) => {
 };
 
 const serialize = module.exports.serialize = (obj) => {
-    if (!obj.ip) { throw new Error("IP6 required"); }
+    if (!obj.ip && !obj.isCtrl) { throw new Error("IP6 required"); }
     const keyBytes = obj.publicKey ? Cjdnskeys.keyStringToBytes(obj.publicKey) : ZEROKEY;
     const shBytes = SwitchHeader.serialize(obj.switchHeader);
     const versionBytes = new Buffer(4);
@@ -68,6 +68,6 @@ const serialize = module.exports.serialize = (obj) => {
     if (obj.isIncoming) { flags |= F_INCOMING; }
     if (obj.isCtrl) { flags |= F_CTRL; }
     const padBytes = new Buffer([flags, 0, 0, 0]);
-    const ipBytes = Cjdnskeys.ip6StringToBytes(obj.ip);
+    const ipBytes = obj.ip ? Cjdnskeys.ip6StringToBytes(obj.ip) : ZEROIP;
     return Buffer.concat([keyBytes, shBytes, versionBytes, padBytes, ipBytes]);
 };
