@@ -14,6 +14,17 @@
  */
 'use strict';
 
+/*::
+import type { SwitchHeader_t } from './SwitchHeader'
+export type Cjdnshdr_SwitchHeader_t = SwitchHeader_t
+
+import type { RouteHeader_t } from './RouteHeader'
+export type Cjdnshdr_RouteHeader_t = RouteHeader_t
+
+import type { DataHeader_t } from './DataHeader'
+export type Cjdnshdr_DataHeader_t = DataHeader_t
+*/
+
 module.exports.RouteHeader = require('./RouteHeader');
 module.exports.SwitchHeader = require('./SwitchHeader');
 module.exports.DataHeader = require('./DataHeader');
