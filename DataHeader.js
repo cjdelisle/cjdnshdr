@@ -1,4 +1,4 @@
-/* vim: set expandtab ts=4 sw=4: */
+/*@flow*/
 /*
  * You may redistribute this program and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation,
@@ -20,7 +20,15 @@ const SIZE = module.exports.SIZE = 4;
 
 const CURRENT_VERSION = module.exports.CURRENT_VERSION = 1;
 
-const parse = module.exports.parse = (bytes) => {
+/*::
+import type { ContentType_t } from './ContentType';
+export type DataHeader_t = {
+    contentType: ContentType_t,
+    version: number
+};
+*/
+
+const parse = module.exports.parse = (bytes /*:Buffer*/) /*:DataHeader_t*/ => {
     if (bytes.length < SIZE) { throw new Error("runt"); }
     const versionAndFlags = bytes[0];
     const unused = bytes[1];
@@ -34,7 +42,7 @@ const parse = module.exports.parse = (bytes) => {
     };
 };
 
-const serialize = module.exports.serialize = (obj) => {
+const serialize = module.exports.serialize = (obj /*:DataHeader_t*/) => {
     if (!ContentType.isValid(obj.contentType)) {
         throw new Error("invalid contentType [" + obj.contentType + "]");
     }

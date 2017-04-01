@@ -1,17 +1,18 @@
 {
-    "name": "cjdnshdr",
-    "version": "0.2.3",
-    "descrption": "tools for parsing and serializing cjdns packet headers",
-    "license": "GPL-3.0+",
-    "repository": "https://github.com/cjdelisle/cjdnshdr",
-    "dependencies": {
-        "cjdnskeys": "~0.1.0"
-    },
-    "devDependencies": {
-        "jshint": "~2.9.1"
-    },
-    "scripts": {
-        "lint": "jshint --verbose --config .jshintrc --exclude-path .jshintignore .",
-        "test": "node test"
-    }
+  "name": "cjdnshdr",
+  "version": "0.2.3",
+  "descrption": "tools for parsing and serializing cjdns packet headers",
+  "license": "GPL-3.0+",
+  "repository": "https://github.com/cjdelisle/cjdnshdr",
+  "dependencies": {
+    "cjdnskeys": "^0.1.3"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.42.0",
+    "jshint": "~2.9.1"
+  },
+  "scripts": {
+    "lint": "jshint --verbose --config .jshintrc --exclude-path .jshintignore .",
+    "test": "node test"
+  }
 }

@@ -1,4 +1,4 @@
-/* vim: set expandtab ts=4 sw=4: */
+/*@flow*/
 /*
  * You may redistribute this program and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation,
@@ -81,21 +81,27 @@ CONTENT_TYPES_STR.split('\n').forEach((line) => {
         NUM_BY_NAME[name] = n;
         NAME_BY_NUM[n] = name;
         //console.log(name + '  ' + n);
+        return '';
     });
 });
 
-const toString = module.exports.toString = (ct) => {
+/*::
+export type ContentType_t = string;
+*/
+
+// $FlowFixMe toString
+const toString = module.exports.toString = (ct /*:number|ContentType_t*/) /*:ContentType_t*/ => {
     return NAME_BY_NUM[ct] || NAME_BY_NUM[NUM_BY_NAME[ct]];
 };
 
-const toNum = module.exports.toNum = (ct) => {
+const toNum = module.exports.toNum = (ct /*:number|ContentType_t*/) => {
     return NUM_BY_NAME[ct] || NUM_BY_NAME[NAME_BY_NUM[ct]];
 };
 
-const isValid = module.exports.isValid = (ct) => {
+const isValid = module.exports.isValid = (ct /*:number|ContentType_t*/) => {
     return !!(NUM_BY_NAME[ct] || NAME_BY_NUM[ct]);
 };
 
-const names = module.exports.names = () => {
+const names = module.exports.names = () /*:ContentType_t[]*/ => {
     return Object.keys(NUM_BY_NAME);
 };

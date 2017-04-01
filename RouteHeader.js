@@ -1,4 +1,4 @@
-/* vim: set expandtab ts=4 sw=4: */
+/*@flow*/
 /*
  * You may redistribute this program and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation,
@@ -23,7 +23,19 @@ const F_CTRL = 1<<1;
 
 const SIZE = module.exports.SIZE = 68;
 
-const parse = module.exports.parse = (hdrBytes) => {
+/*::
+import type { SwitchHeader_t } from './SwitchHeader';
+export type RouteHeader_t = {
+    publicKey: string | null,
+    version: number,
+    ip: string | null,
+    switchHeader: SwitchHeader_t,
+    isIncoming: boolean,
+    isCtrl: boolean
+};
+*/
+
+const parse = module.exports.parse = (hdrBytes /*:Buffer*/) /*:RouteHeader_t*/ => {
     if (hdrBytes.length < SIZE) { throw new Error("runt"); }
     let x = 0;
     const keyBytes = hdrBytes.slice(x, x += 32);
@@ -42,7 +54,7 @@ const parse = module.exports.parse = (hdrBytes) => {
 
     const out = {
         publicKey: keyBytes.equals(ZEROKEY) ? null : Cjdnskeys.keyBytesToString(keyBytes),
-        version: versionBytes.readInt32BE(),
+        version: versionBytes.readInt32BE(0),
         ip: isCtrl ? null : Cjdnskeys.ip6BytesToString(ipBytes),
         switchHeader: SwitchHeader.parse(shBytes),
         isIncoming: !!(flags & F_INCOMING),
@@ -58,12 +70,12 @@ const parse = module.exports.parse = (hdrBytes) => {
     return out;
 };
 
-const serialize = module.exports.serialize = (obj) => {
+const serialize = module.exports.serialize = (obj /*:RouteHeader_t*/) => {
     if (!obj.ip && !obj.isCtrl) { throw new Error("IP6 required"); }
     const keyBytes = obj.publicKey ? Cjdnskeys.keyStringToBytes(obj.publicKey) : ZEROKEY;
     const shBytes = SwitchHeader.serialize(obj.switchHeader);
     const versionBytes = new Buffer(4);
-    versionBytes.writeUInt32BE(obj.version);
+    versionBytes.writeUInt32BE(obj.version, 0);
     let flags = 0;
     if (obj.isIncoming) { flags |= F_INCOMING; }
     if (obj.isCtrl) { flags |= F_CTRL; }
