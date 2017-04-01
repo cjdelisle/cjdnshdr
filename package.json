@@ -13,6 +13,7 @@
   },
   "scripts": {
     "lint": "jshint --verbose --config .jshintrc --exclude-path .jshintignore .",
-    "test": "node test"
+    "test": "node test",
+    "flow": "./node_modules/.bin/flow"
   }
 }
