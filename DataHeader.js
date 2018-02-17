@@ -37,7 +37,7 @@ const parse = module.exports.parse = (bytes /*:Buffer*/) /*:DataHeader_t*/ => {
     const version = versionAndFlags >> 4;
 
     return {
-        contentType: ContentType.toString(contentType),
+        contentType: ContentType.asString(contentType),
         version: version
     };
 };

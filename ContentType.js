@@ -89,8 +89,7 @@ CONTENT_TYPES_STR.split('\n').forEach((line) => {
 export type ContentType_t = string;
 */
 
-// $FlowFixMe toString
-const toString = module.exports.toString = (ct /*:number|ContentType_t*/) /*:ContentType_t*/ => {
+const toString = module.exports.asString = (ct /*:number|ContentType_t*/) /*:ContentType_t*/ => {
     return NAME_BY_NUM[ct] || NAME_BY_NUM[NUM_BY_NAME[ct]];
 };
 

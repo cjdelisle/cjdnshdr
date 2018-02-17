@@ -64,10 +64,10 @@ const testRouteHeaderParse = () => {
 };
 
 const contentTypeTest = () => {
-    assert(ContentType.toString(256) === 'CJDHT');
-    assert(ContentType.toString('CJDHT') === 'CJDHT');
-    assert(ContentType.toString(10000000) === undefined);
-    assert(ContentType.toString('no such type') === undefined);
+    assert(ContentType.asString(256) === 'CJDHT');
+    assert(ContentType.asString('CJDHT') === 'CJDHT');
+    assert(ContentType.asString(10000000) === undefined);
+    assert(ContentType.asString('no such type') === undefined);
     assert(ContentType.toNum(256) === 256);
     assert(ContentType.toNum('CJDHT') === 256);
     assert(ContentType.toNum('no such type') === undefined);

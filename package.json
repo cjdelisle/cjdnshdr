@@ -1,6 +1,6 @@
 {
   "name": "cjdnshdr",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "descrption": "tools for parsing and serializing cjdns packet headers",
   "license": "GPL-3.0+",
   "repository": "https://github.com/cjdelisle/cjdnshdr",
@@ -8,7 +8,7 @@
     "cjdnskeys": "^0.1.4"
   },
   "devDependencies": {
-    "flow-bin": "^0.42.0",
+    "flow-bin": "^0.62.0",
     "jshint": "~2.9.1"
   },
   "scripts": {
