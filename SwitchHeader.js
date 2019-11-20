@@ -66,8 +66,7 @@ const serialize = module.exports.serialize = (obj /*:SwitchHeader_t*/) => {
     const labelHex = obj.label.replace(/\./g, '');
     const congestAndSuppressErrors = ((obj.congestion << 1) | Number(obj.suppressErrors)) & 0xff;
     const versionAndLabelShift = ((obj.version << 6) | obj.labelShift) & 0xff;
-    const out = new Buffer(12);
-    out.write(labelHex, 0, labelHex.length, 'hex');
+    const out = Buffer.concat([ Buffer.from(labelHex, 'hex'), Buffer.alloc(4) ]);
     out[8] = congestAndSuppressErrors;
     out[9] = versionAndLabelShift;
     out.writeUInt16BE(obj.penalty, 10);
